@@ -71,6 +71,18 @@ angular.module('ngDependencyGraph')
             } else {
               service._setData(data);
               service.waitingForAppData = false;
+              console.log('data', _data);
+              
+              // Export all data to ad hoc JSON file
+              var _json = JSON.stringify(_data , null, 2); //indentation in json format, human readable
+              var vLink = document.createElement('a'),
+              vBlob = new Blob([_json], {type: "octet/stream"}),
+              vName = 'ng_deps.json',
+              vUrl = window.URL.createObjectURL(vBlob);
+              vLink.setAttribute('href', vUrl);
+              vLink.setAttribute('download', vName );
+              vLink.click();
+              
               defer.resolve(_data);
             }
           });
